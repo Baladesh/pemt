@@ -1,0 +1,78 @@
+<div class="sidebar">
+    <app-users-sidebar></app-users-sidebar>
+</div>
+<div class="user-container" *ngIf="user">
+    <span class="user-photo"></span>
+    <div class="user-info">
+        <div class="name">{{user.name + ' ' + user.surname}} </div>
+        <div class="mhs-number">MHS Number: {{user.mhsNumber}}</div>
+        <div class="diagnosis">Diagnosis: {{user.diagnosis}}</div>
+    </div>
+
+
+    <div class="add-new-programme" (click)="openModal(addNewProgramme)">
+        Add new programme
+    </div>
+</div>
+
+<div class="assigned-programme" *ngIf="user && user.assignedProgrammes">
+    <div *ngFor="let programme of user.assignedProgrammes; let i = index" class="programme-container">
+        <div class="header">
+            {{programme.programmeName}} ({{programme.date | date:"dd-MM-yyyy"}})
+            <div class="goal-description">{{programme.goal}}</div>
+
+            <div class="right-block">
+                <div class="count">{{programme.exercises.length + ' Exercises'}}</div>
+                <div class="share-btn">Share with Parents</div>
+            </div>
+        </div>
+        <div class="exercises-block">
+            <div class="exercises-head">
+                <div class="col-1">#</div>
+                <div class="col-2">Name</div>
+                <div class="col-4">Description</div>
+                <div class="col-3">Repetitions</div>
+                <div class="col-2">Review Date</div>
+            </div>
+            <div class="exercises-body" *ngFor="let exercise of programme.exercises; let a = index" [class.odd]="a % 2 !== 0">
+                <div class="col-1">{{a+1}}</div>
+                <div class="col-2">{{exercise.exerciseName}}</div>
+                <div class="col-4">{{exercise.description}}</div>
+                <div class="col-3">
+                    <div class="repetition">
+                        {{exercise.initial.reps + ' reps ' + exercise.initial.timePerWeek + ' time per week ' + ' for next ' + exercise.initial.timePeriod}}
+                    </div>
+                    <div *ngFor="let rep of exercise.progressions" class="repetition">
+                        {{rep.reps + ' reps ' + rep.timePerWeek + ' time per week ' + ' for next ' + rep.timePeriod}}
+                    </div>
+                </div>
+                <div class="col-2">{{exercise.reviewDate | date:"dd-MM-yyyy"}}</div>
+                <div class="attachments">
+                    <div class="image" *ngFor="let image of getExerciseAttach(exercise); let i = index;">
+                        <img src="{{getImage(image)}}" alt="{{image.filename}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #addNewProgramme>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add new programme</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ngx-select-dropdown [options]="programmes" [(ngModel)]="selectedProgramme" [config]="{displayKey:'programmeName'}"
+                             [multiple]="false" class="select"></ngx-select-dropdown>
+
+        <div class="error" *ngIf="error">This programme already assigned.</div>
+
+        <button (click)="modalRef.hide()">Cancel</button>
+        <button [disabled]="!isUserDataAbsent" (click)="addProgramme()">Add</button>
+    </div>
+</ng-template>

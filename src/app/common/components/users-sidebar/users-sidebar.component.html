@@ -1,0 +1,43 @@
+<div class="users-container">
+    <div *ngFor="let user of users" class="user" [routerLink]="['/admin/user', user.id]" routerLinkActive="active">
+        <span class="user-photo"></span>
+        <span class="user-display-name">
+            {{user.name + ' ' + user.surname}}
+        </span>
+    </div>
+</div>
+
+<div class="add-new-user">
+    <span (click)="openModal(addNewUser)" class="add-btn"><span class="plus">+</span> Add new user</span>
+</div>
+
+
+<ng-template #addNewUser>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add new User</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="input-container">
+            <div class="name-container">
+                <input type="text" [(ngModel)]="userName" placeholder="Enter name">
+            </div>
+            <div class="name-container">
+                <input type="text" [(ngModel)]="userSurname" placeholder="Enter surname">
+            </div>
+            <div class="mhs-number">
+                <input type="number" [(ngModel)]="mhsNumber" placeholder="Enter MHS number">
+            </div>
+            <div class="diagnosis">
+                <textarea [(ngModel)]="diagnosis" placeholder="Enter diagnosis"></textarea>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button (click)="modalRef.hide()" class="cancel">Cancel</button>
+            <button [disabled]="!isUserDataAbsent" (click)="addUser()" class="add">Add</button>
+        </div>
+    </div>
+</ng-template>

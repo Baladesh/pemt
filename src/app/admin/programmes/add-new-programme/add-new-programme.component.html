@@ -1,0 +1,135 @@
+<div class="container add-programme-modal">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add New Exercise programme</h4>
+    </div>
+
+    <div class="modal-body" *ngIf="exercisesForm.controls.length > 0">
+        <form>
+            <div [formGroup]="programmeForm">
+                <div class="first-row row">
+                    <div class="programme-name col-6">
+                        <label for="">Name of exercises programme *</label>
+                        <input type="text" formControlName="programmeName" placeholder="Enter name">
+                        <div class="alert alert-danger"
+                             *ngIf="!programmeForm.controls['programmeName'].valid && programmeForm.controls['programmeName'].touched">
+                            Name of exercises programme is required.
+                        </div>
+
+                    </div>
+                    <div class="col-6 date">
+                        <label for="">Date</label>
+                        <input type="text"
+                               placeholder="Choose date"
+                               class="form-control"
+                               formControlName="date"
+                               bsDatepicker>
+                        <div class="alert alert-danger"
+                             *ngIf="!programmeForm.controls['date'].valid && programmeForm.controls['date'].touched">Date is
+                            required.
+                        </div>
+
+                    </div>
+                </div>
+                <div class="second-row row">
+                    <div class="col-12 goal">
+                        <label for="">Goals/Objectives</label>
+                        <textarea name="" id="" formControlName="goal"></textarea>
+                        <div class="alert alert-danger"
+                             *ngIf="!programmeForm.controls['goal'].valid && programmeForm.controls['goal'].touched">Goals
+                            is required.
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="exercises-row" *ngFor="let exercise of exercisesForm.controls; let exIndex = index;"
+                     [formGroup]="exercise">
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-6 exercise-name">
+                            <label for="">Exercise name</label>
+                            <input type="text" formControlName="exerciseName" placeholder="Enter name">
+                        </div>
+                        <div class="col-6 date">
+                            <label for="">Review date</label>
+                            <input type="text"
+                                   placeholder="Choose date"
+                                   class="form-control"
+                                   formControlName="reviewDate"
+                                   bsDatepicker>
+                        </div>
+                    </div>
+                    <div class="description-row row">
+                        <div class="col-12 goal">
+                            <label for="">Description of exercises activity</label>
+                            <textarea name="" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="initial-row row">
+                        <label for="" class="col-12">Initial:</label>
+                        <div class="initial" [formGroup]="exercise.get('initial')">
+                            <div class="col-2 flex">
+                                <input type="number" formControlName="reps"> <span> reps</span>
+                            </div>
+                            <div class="col-5 flex">
+                                <ngx-select-dropdown [options]="timePerWeek" formControlName="timePerWeek"
+                                                     [multiple]="false" class="select"></ngx-select-dropdown>
+                                <span>times per week</span>
+                            </div>
+                            <div class="col-5 flex">
+                                <span>for the first</span>
+                                <input type="number" formControlName="timePeriod">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row progression-row" *ngIf="exercise.get('progressions').controls.length">
+                        <label for="" class="col-12">Progression:</label>
+                        <div *ngFor="let progression of exercise.get('progressions').controls; let i = index;"
+                             [formGroup]="progression" class="progression">
+                            <div class="col-2 flex">
+                                <input type="number" formControlName="reps"> <span> reps</span>
+                            </div>
+                            <div class="col-5 flex">
+                                <ngx-select-dropdown [options]="timePerWeek" formControlName="timePerWeek"
+                                                     [multiple]="false" class="select"></ngx-select-dropdown>
+                                <span>times per week</span>
+                            </div>
+                            <div class="col-4 flex">
+                                <span>for the first</span>
+                                <input type="number" formControlName="timePeriod">
+                            </div>
+                            <div class="col-1 flex">
+                                <span class="delete-btn" (click)="deleteProgression(exercise, i)"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 add-progression" (click)="addProgression(exercise)">+ Add progression repetition
+                    </div>
+                    <div class="attach-row">
+                        <div class="image" *ngFor="let image of getExerciseAttach(exercise); let i = index;">
+                            <img src="{{getImage(image)}}" alt="{{image.filename}}">
+                        </div>
+                        <div class="attach-container">
+                            <label [for]="'attach-img' + exIndex">Photos/videos Uploading</label>
+                            <input [id]="'attach-img' + exIndex" type="file" (change)="onFileSelect($event, exercise); "/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-new-exercises col-12" (click)="addExercise()">
+                    <span>Add new exercises</span>
+                </div>
+            </div>
+        </form>
+
+        <div class="footer">
+            <button (click)="returnBack()">Cancel</button>
+            <button (click)="addProgramme()"
+                    class="create-programme">{{isEdit ? 'Update programme' : 'Create new programme'}}</button>
+        </div>
+    </div>
+
+</div>
+
+

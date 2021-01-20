@@ -1,0 +1,63 @@
+.programme-container {
+    margin: 40px 20px 0;
+    border: 1px solid #808080;
+
+    .header {
+        background-color: rgba(0,0,0,0.7);
+        height: 60px;
+        color: #fff;
+        position: relative;
+        padding: 5px 20px;
+
+        .goal-description {
+            font-size: 12px;
+        }
+
+        .right-block {
+            position: absolute;
+            right: 20px;
+            top: 0;
+
+            .count {
+                text-align: right;
+            }
+
+            .share-btn {
+                border: 1px solid #fff;
+                padding: 3px 10px
+            }
+        }
+    }
+
+    .exercises-block {
+        .exercises-head {
+            display: flex;
+            background-color: lightgrey;
+        }
+
+        .exercises-body {
+            display: flex;
+            flex-wrap: wrap;
+
+            &.odd {
+                background-color: antiquewhite;
+            }
+
+            .attachments {
+                display: flex;
+
+                .image {
+                    width: 150px;
+                    height: 150px;
+                    margin: 10px;
+
+                    img {
+                        width: inherit;
+                        height: inherit;
+                    }
+                }
+            }
+
+        }
+    }
+}

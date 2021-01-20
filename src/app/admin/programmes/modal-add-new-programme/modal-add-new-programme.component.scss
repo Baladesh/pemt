@@ -1,0 +1,114 @@
+.goal {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.initial-row, .progression-row {
+    display: block;
+}
+
+.initial, .progression {
+    display: flex;
+}
+
+.flex {
+    display: flex;
+
+    span {
+        width: 100%;
+        padding-left: 10px;
+    }
+}
+
+.select {
+    width: 50%;
+}
+
+.delete-btn {
+    background: url("/assets/images/delete.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 24px;
+    height: 24px;
+}
+
+.attach-row {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+
+    .attach-container {
+        width: 150px;
+        height: 150px;
+        border: 2px dashed gray;
+        margin: 10px;
+
+        label {
+            width: inherit;
+            height: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        input {
+            position: absolute;
+            left: -100000px;
+        }
+    }
+
+    .image {
+        width: 150px;
+        height: 150px;
+        margin: 10px;
+
+        img {
+            width: inherit;
+            height: inherit;
+        }
+    }
+}
+
+.add-new-exercises {
+    border: 2px solid #000;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.add-progression {
+    cursor: pointer;
+}
+
+.footer {
+    height: 80px;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #d3d3d3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    bottom: -80px;
+    left: 0;
+    right: 0;
+
+    button {
+        border: none;
+        background-color: transparent;
+        margin-right: 20px;
+    }
+
+    .create-programme {
+        color: #fff;
+        background-color: #000;
+        padding: 5px 10px;
+        border-radius: 2px;
+    }
+}

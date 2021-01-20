@@ -1,0 +1,28 @@
+.programme {
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.add-new-programm {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 60px;
+
+    a {
+        color: #000;
+        border: 2px solid #000000;
+        padding: 3px 10px ;
+        border-radius: 10px;
+    }
+}
+
+.view {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+}

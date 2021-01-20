@@ -1,0 +1,19 @@
+<span routerLinkActive="active" class="add-new-programm">
+    <a [routerLink]="['/admin/add-programme']" routerLinkActive="active">Add new programme</a>
+</span>
+<div class="programmes-container container">
+    <div class="programme" *ngFor="let programme of programmes; let i = index">
+        <div class="programme-name col-3">Programme name: {{programme.programmeName}}</div>
+        <div class="col-4">Goal: {{programme.goal}}</div>
+        <div class="date col-3">Date: {{programme.date}}</div>
+        <div class="view col-1" (click)="addNewProgramme.openModal(true, programme)">View</div>
+        <div class="edit col-1">
+            <span routerLinkActive="active" class="user-link">
+                <a [routerLink]="['/admin/edit-programme', programme.id]" routerLinkActive="active">Edit</a>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<app-modal-add-new-programme #addNewProgramme></app-modal-add-new-programme>
