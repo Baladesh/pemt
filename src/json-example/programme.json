@@ -1,0 +1,35 @@
+{
+    "id": "number",
+    "programmeName": "String",
+    "date": "Date",
+    "goal": "string",
+    "exercises": [
+        {
+            "id": "number",
+            "exerciseName": "string",
+            "reviewDate": "Date",
+            "description": "string",
+            "initial": {
+                "reps": "number",
+                "timesPerWeek": "number",
+                "timePeriod": "number"
+            },
+            "progressions": [
+                {
+                    "id": "number",
+                    "reps": "number",
+                    "timesPerWeek": "number",
+                    "timePeriod": "number"
+                }
+            ],
+            "attachments": [
+                {
+                    "id": "number",
+                    "fileName": "string",
+                    "path": "string",
+                    "date": "Date"
+                }
+            ]
+        }
+    ]
+}
