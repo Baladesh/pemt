@@ -1,23 +1,29 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {UserExtend} from '../../models/user-extend.model';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ProgrammeService} from '../../services/programme.service';
 import {Programme} from '../../models/programme.model';
+import {Subscription} from 'rxjs';
+
+const mobileScreenWidth = 720;
 
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
     userId: number;
     user: UserExtend;
     modalRef: BsModalRef;
     programmes: Array<Programme>;
     selectedProgramme: Programme;
     error = false;
+    isMobile = false;
+
+    private subscriptions = new Subscription();
 
     constructor(
         private readonly route: ActivatedRoute,
@@ -31,22 +37,30 @@ export class UsersComponent implements OnInit {
                 this.getUser();
             }
         });
+
+        if (window.screen.width <= mobileScreenWidth) {
+            this.isMobile = true;
+        }
     }
 
     ngOnInit(): void {
         this.getAllProgrammes();
     }
 
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+
     getUser(): void {
-        this.userService.getOneUser(this.userId).subscribe(res => {
+        this.subscriptions.add(this.userService.getOneUser(this.userId).subscribe(res => {
             this.user = res;
-        });
+        }));
     }
 
     getAllProgrammes(): void {
-        this.programmeService.getAllProgrammes().subscribe(res => {
+        this.subscriptions.add(this.programmeService.getAllProgrammes().subscribe(res => {
             this.programmes = res;
-        });
+        }));
     }
 
     openModal(template: TemplateRef<any>): void {
@@ -71,11 +85,11 @@ export class UsersComponent implements OnInit {
             };
         }
 
-        this.userService.updateUser(this.userId, userDTO).subscribe(res => {
+        this.subscriptions.add(this.userService.updateUser(this.userId, userDTO).subscribe(res => {
             this.selectedProgramme = null;
             this.modalRef.hide();
             this.user = res;
-        });
+        }));
     }
 
     getExerciseAttach(exercise): void {
@@ -87,6 +101,6 @@ export class UsersComponent implements OnInit {
     }
 
     get isUserDataAbsent(): boolean {
-        return this.selectedProgramme && this.selectedProgramme.id !== 0;
+        return Object.keys(this.selectedProgramme).length > 0;
     }
 }

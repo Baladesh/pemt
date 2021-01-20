@@ -1,7 +1,7 @@
-<div class="sidebar">
+<div class="sidebar" [class.is-mobile]="isMobile">
     <app-users-sidebar></app-users-sidebar>
 </div>
-<div class="user-container" *ngIf="user">
+<div class="user-container" *ngIf="user" [class.is-mobile]="isMobile">
     <span class="user-photo"></span>
     <div class="user-info">
         <div class="name">{{user.name + ' ' + user.surname}} </div>
@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<div class="assigned-programme" *ngIf="user && user.assignedProgrammes">
+<div class="assigned-programme" *ngIf="user?.assignedProgrammes" [class.is-mobile]="isMobile">
     <div *ngFor="let programme of user.assignedProgrammes; let i = index" class="programme-container">
         <div class="header">
             {{programme.programmeName}} ({{programme.date | date:"dd-MM-yyyy"}})
@@ -72,7 +72,9 @@
 
         <div class="error" *ngIf="error">This programme already assigned.</div>
 
-        <button (click)="modalRef.hide()">Cancel</button>
-        <button [disabled]="!isUserDataAbsent" (click)="addProgramme()">Add</button>
+        <div class="btn-container">
+            <button (click)="modalRef.hide()" class="cancel">Cancel</button>
+            <button [disabled]="!isUserDataAbsent" (click)="addProgramme()" class="add">Add</button>
+        </div>
     </div>
 </ng-template>

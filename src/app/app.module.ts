@@ -9,7 +9,7 @@ import { UsersComponent } from './admin/users/users.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {UserService} from './services/user.service';
-import { ModalAddNewProgrammeComponent } from './admin/programmes/modal-add-new-programme/modal-add-new-programme.component';
+import { ModalViewProgrammeComponent } from './admin/programmes/modal-view-programme/modal-view-programme.component';
 import {ProgrammesComponent} from './admin/programmes/programmes.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
@@ -23,7 +23,7 @@ import { AddNewProgrammeComponent } from './admin/programmes/add-new-programme/a
         AdminComponent,
         UsersComponent,
         ProgrammesComponent,
-        ModalAddNewProgrammeComponent,
+        ModalViewProgrammeComponent,
         AddNewProgrammeComponent
     ],
     imports: [
@@ -39,7 +39,7 @@ import { AddNewProgrammeComponent } from './admin/programmes/add-new-programme/a
         SelectDropDownModule,
     ],
     exports: [
-        ModalAddNewProgrammeComponent
+        ModalViewProgrammeComponent
     ],
     providers: [UserService, ProgrammeService],
     bootstrap: [AppComponent]

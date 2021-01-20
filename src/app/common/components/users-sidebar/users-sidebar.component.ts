@@ -1,15 +1,15 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {UserService} from '../../../services/user.service';
-import {UserExtend} from '../../../models/user-extend.model';
 import {User} from '../../../models/user.model';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-users-sidebar',
     templateUrl: './users-sidebar.component.html',
     styleUrls: ['./users-sidebar.component.scss']
 })
-export class UsersSidebarComponent implements OnInit {
+export class UsersSidebarComponent implements OnInit, OnDestroy {
     users: Array<User>;
     userName: string;
     userSurname: string;
@@ -17,13 +17,19 @@ export class UsersSidebarComponent implements OnInit {
     mhsNumber: number;
     modalRef: BsModalRef;
 
+    private subscriptions = new Subscription();
+
     constructor(
         private modalService: BsModalService,
         private userService: UserService) {
     }
 
     ngOnInit(): void {
-        this.userService.getAllUsers().subscribe(res => this.users = res);
+        this.subscriptions.add(this.userService.getAllUsers().subscribe(res => this.users = res));
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
     }
 
     openModal(template: TemplateRef<any>): void {
@@ -49,9 +55,9 @@ export class UsersSidebarComponent implements OnInit {
             diagnosis: this.diagnosis
         };
 
-        this.userService.addUser(userDTO).subscribe(res => {
+        this.subscriptions.add(this.userService.addUser(userDTO).subscribe(res => {
             this.users.push(res);
             this.modalRef.hide();
-        });
+        }));
     }
 }

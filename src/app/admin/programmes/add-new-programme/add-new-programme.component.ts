@@ -1,19 +1,19 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalService} from 'ngx-bootstrap/modal';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProgrammeService} from '../../../services/programme.service';
 import {Programme} from '../../../models/programme.model';
-import {delay} from 'rxjs/operators';
-import {of} from 'rxjs';
-import {Exercise} from '../../../models/exercise.model';
+import {Subscription} from 'rxjs';
+
+const mobileScreenWidth = 720;
 
 @Component({
-  selector: 'app-add-new-programme',
-  templateUrl: './add-new-programme.component.html',
-  styleUrls: ['./add-new-programme.component.scss']
+    selector: 'app-add-new-programme',
+    templateUrl: './add-new-programme.component.html',
+    styleUrls: ['./add-new-programme.component.scss']
 })
-export class AddNewProgrammeComponent implements OnInit {
+export class AddNewProgrammeComponent implements OnInit, OnDestroy {
     @ViewChild('modalAddProgramme') public templateRef: TemplateRef<any>;
     @Input() callbackFunction;
     timePerWeek: Array<number> = [1, 2, 3, 4, 5, 6, 7];
@@ -21,9 +21,9 @@ export class AddNewProgrammeComponent implements OnInit {
     programme: Programme;
     isEdit = false;
     programmeId: number;
-    exerciseTemp;
+    isMobile = false;
 
-    private modalRef: BsModalRef;
+    private subscriptions = new Subscription();
 
     constructor(
         private modalService: BsModalService,
@@ -31,13 +31,16 @@ export class AddNewProgrammeComponent implements OnInit {
         private readonly route: ActivatedRoute,
         private readonly router: Router,
         private programmeService: ProgrammeService) {
-        this.route.params.subscribe(res => {
+        this.subscriptions.add(this.route.params.subscribe(res => {
             if (res && Object.keys(res).length !== 0) {
                 this.programmeId = +this.route.snapshot.paramMap.get('id');
                 this.isEdit = true;
             }
-        });
+        }));
 
+        if (window.screen.width <= mobileScreenWidth) {
+            this.isMobile = true;
+        }
     }
 
     ngOnInit(): void {
@@ -48,8 +51,12 @@ export class AddNewProgrammeComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+
     loadProgramme(id: number): void {
-        this.programmeService.getProgramme(id).subscribe((res: Programme) => {
+        this.subscriptions.add(this.programmeService.getProgramme(id).subscribe((res: Programme) => {
             this.programme = res;
             this.programme.date = new Date(this.programme.date);
             this.programme.exercises.map(e => e.reviewDate = new Date(e.reviewDate));
@@ -69,9 +76,9 @@ export class AddNewProgrammeComponent implements OnInit {
 
             setTimeout(() => {
                 this.programmeForm.patchValue(res);
-            }, );
+            },);
 
-        });
+        }));
     }
 
     private createForm(): void {
@@ -145,18 +152,18 @@ export class AddNewProgrammeComponent implements OnInit {
         if (this.isEdit) {
             const programmeDTO = this.programmeForm.getRawValue();
 
-            this.programmeService.updateProgramme(programmeDTO, this.programmeId).subscribe(res => {
+            this.subscriptions.add(this.programmeService.updateProgramme(programmeDTO, this.programmeId).subscribe(res => {
                 this.router.navigate(['/']);
-            });
+            }));
 
             return;
         }
 
         const programmeDTO = this.programmeForm.getRawValue();
 
-        this.programmeService.addProgramme(programmeDTO).subscribe(res => {
+        this.subscriptions.add(this.programmeService.addProgramme(programmeDTO).subscribe(res => {
             this.router.navigate(['/']);
-        });
+        }));
     }
 
     returnBack(): void {
@@ -185,7 +192,7 @@ export class AddNewProgrammeComponent implements OnInit {
     }
 
     get exercisesForm(): FormArray {
-        return this.programmeForm.get("exercises") as FormArray;
+        return this.programmeForm.get('exercises') as FormArray;
     }
 
     private progressionsForm(index): FormArray {

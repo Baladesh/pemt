@@ -3,7 +3,7 @@
     border: 1px solid #808080;
 
     .header {
-        background-color: rgba(0,0,0,0.7);
+        background-color: rgba(0, 0, 0, 0.7);
         height: 60px;
         color: #fff;
         position: relative;
@@ -58,6 +58,29 @@
                 }
             }
 
+        }
+    }
+}
+
+.btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+
+    button {
+        border: none;
+        background-color: transparent;
+        margin: 0 10px;
+
+        &.add {
+            padding: 3px 20px;
+            background-color: #007bff;
+            color: #fff;
+
+            &:disabled {
+                background-color: grey;
+            }
         }
     }
 }

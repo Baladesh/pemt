@@ -1,4 +1,4 @@
-<div class="container add-programme-modal">
+<div class="container add-programme-modal" [class.is-mobile]="isMobile">
     <div class="modal-header">
         <h4 class="modal-title pull-left">Add New Exercise programme</h4>
     </div>
@@ -107,7 +107,7 @@
                     <div class="col-12 add-progression" (click)="addProgression(exercise)">+ Add progression repetition
                     </div>
                     <div class="attach-row">
-                        <div class="image" *ngFor="let image of getExerciseAttach(exercise); let i = index;">
+                        <div class="image" *ngFor="let image of getExerciseAttach(exercise);">
                             <img src="{{getImage(image)}}" alt="{{image.filename}}">
                         </div>
                         <div class="attach-container">

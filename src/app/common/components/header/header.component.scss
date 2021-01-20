@@ -7,7 +7,7 @@
     background-color: rgba(0,0,0,0.8);
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 5;
 
     .title {
         color: #fff;
@@ -27,6 +27,17 @@
             .active {
                 color: #fff;
             }
+        }
+    }
+}
+
+.is-mobile {
+    &.header {
+        flex-wrap: wrap;
+        padding-left: 0;
+
+        .title {
+            display: none;
         }
     }
 }

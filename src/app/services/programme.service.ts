@@ -5,33 +5,24 @@ import {Programme} from '../models/programme.model';
 
 @Injectable()
 export class ProgrammeService {
-    headers: HttpHeaders;
-    constructor(private http: HttpClient) {
-        this.headers = new HttpHeaders({ 'Content-Type': 'application/json'});
-    }
+    api = 'http://localhost:3000/programmes/';
+
+    constructor(private http: HttpClient) {}
 
     addProgramme(programme: Programme): Observable<Programme> {
         programme.id = new Date().getTime();
-        return this.http.post('http://localhost:3000/programmes', programme, { headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            })}) as Observable<Programme>;
+        return this.http.post(this.api, programme) as Observable<Programme>;
     }
 
     getAllProgrammes(): Observable<Array<Programme>> {
-        return this.http.get('http://localhost:3000/programmes', { headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            })}) as Observable<Array<Programme>>;
+        return this.http.get(this.api) as Observable<Array<Programme>>;
     }
 
     getProgramme(id: number): Observable<Programme> {
-        return this.http.get('http://localhost:3000/programmes/' + id, { headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            })}) as Observable<Programme>;
+        return this.http.get(this.api + id) as Observable<Programme>;
     }
 
     updateProgramme(programme: Programme, id: number): Observable<Programme> {
-        return this.http.put('http://localhost:3000/programmes/' + id, programme,{ headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            })}) as Observable<Programme>;
+        return this.http.put(this.api + id, programme) as Observable<Programme>;
     }
 }

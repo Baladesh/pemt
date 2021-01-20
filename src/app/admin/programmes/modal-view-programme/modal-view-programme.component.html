@@ -1,13 +1,13 @@
-<ng-template #modalAddProgramme>
+<ng-template #modalViewProgramme>
     <div class="modal-header">
         <h4 class="modal-title pull-left">Add New Exercise programme</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" *ngIf="programme">
+    <div class="modal-body" [class.is-mobile]="isMobile" *ngIf="programme">
         <form>
-            <div [formGroup]="programmeForm">
+            <div>
                 <div class="first-row row">
                     <div class="programme-name col-6">
                         <label for="">Name of exercises programme *</label>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-6 date">
                         <label for="">Date</label>
-                        <div class="show-data">{{programme.date}}</div>
+                        <div class="show-data">{{programme.date | date:"dd-MM-yyyy"}}</div>
                     </div>
                 </div>
                 <div class="second-row row">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
 
-                <div class="exercises-row" *ngFor="let exercise of programme.exercises; let i = index;">
+                <div class="exercises-row" *ngFor="let exercise of programme.exercises;">
                     <hr>
                     <div class="row">
                         <div class="col-6 exercise-name">
@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-6 date">
                             <label for="">Review date</label>
-                            <div class="show-data">{{exercise.reviewDate}}</div>
+                            <div class="show-data">{{exercise.reviewDate | date:"dd-MM-yyyy"}}</div>
                         </div>
                     </div>
                     <div class="description-row row">
@@ -61,7 +61,7 @@
                     </div>
                     <div class="row progression-row" *ngIf="exercise.progressions.length">
                         <label for="" class="col-12">Progression:</label>
-                        <div *ngFor="let progression of exercise.progressions; let i = index;" class="progression">
+                        <div *ngFor="let progression of exercise.progressions;" class="progression">
                             <div class="col-2 flex">
                                 <div class="show-data">{{progression.reps}}</div>
                             </div>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div class="attach-row">
-                        <div class="image" *ngFor="let image of getExerciseAttach(exercise); let i = index;" >
+                        <div class="image" *ngFor="let image of getExerciseAttach(exercise);" >
                             <img src="{{getImage(image)}}" alt="{{image.filename}}">
                         </div>
                     </div>

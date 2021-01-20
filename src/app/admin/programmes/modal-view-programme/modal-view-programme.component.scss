@@ -112,3 +112,23 @@
         border-radius: 2px;
     }
 }
+
+.is-mobile {
+    .flex {
+        flex-direction: column;
+
+        &:nth-child(3) {
+            flex-direction: column-reverse;
+        }
+
+        .select {
+            width: 100%;
+        }
+
+        .delete-btn {
+            position: absolute;
+            right: 4px;
+            top: 5px
+        }
+    }
+}
