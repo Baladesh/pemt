@@ -8,6 +8,7 @@ body {
     width: 15%;
     height: 100%;
     position: fixed;
+    top: 60px;
     left: 0;
     z-index: 2;
     background-color: #d3d3d3;
@@ -85,7 +86,7 @@ body {
     background-color: rgba(0,0,0,0.3);
 
     &.is-mobile {
-        margin-top: 179px;
+        margin-top: 170px;
         margin-left: 0;
         padding-left: 10px;
 
